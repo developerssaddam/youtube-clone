@@ -74,6 +74,11 @@ const getCategoryData = async (categoryID, dataSortedByView) => {
   categoryData.map((item) => {
     const { authors, others, thumbnail, title } = item;
 
+    console.log(others.posted_date);
+
+    // Show TimeStamp.
+    const time = getTime(others?.posted_date);
+
     // Set VerifyBadge conditionaly.
     let verifyBadge = "";
     if (authors[0].verified) {
@@ -84,7 +89,7 @@ const getCategoryData = async (categoryID, dataSortedByView) => {
 
     categoryCard.innerHTML = `<figure class="overflow-hidden h-64">
             <img class="w-full h-full" src="${thumbnail}" alt="thumbnail" />
-            <h6 class="absolute bottom-[40%] right-12">0 hr</h6>
+            <h6 class="absolute bottom-[40%] right-12">${time}</h6>
             </figure>
             <div class="card-body">
                 <div class="flex space-x-4 justify-start items-start">
@@ -107,3 +112,11 @@ const getCategoryData = async (categoryID, dataSortedByView) => {
 
 getCategoryBtnData();
 getCategoryData(categoryId, dataSortedByView);
+
+// Get time function.
+const getTime = (timestamp) => {
+  const hour = Math.floor(timestamp / (1000 * 60 * 60));
+  const minite = Math.floor((timestamp % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timestamp % (1000 * 60)) / 1000);
+  return ` ${hour}:Hour, ${minite}:Mintite, ${seconds}:seconds ago`;
+};
